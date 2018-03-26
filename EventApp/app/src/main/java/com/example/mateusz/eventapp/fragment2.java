@@ -30,14 +30,12 @@ public class fragment2 extends Fragment {
     private ArrayList<DataModel> dataModels;
     private CustomAdapter adapter;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment2_layout, container, false);
-
-
-       listView = view.findViewById(R.id.listview);
-
+        //this Strings should be defined in Strings file
         dataModels = new ArrayList<>();
         dataModels.add(new DataModel("1","Nokia", "Najlepsza firma", R.drawable.apple ));
         dataModels.add(new DataModel("3","fdfd", "Najlepsza firma", R.drawable.google ));
@@ -51,8 +49,11 @@ public class fragment2 extends Fragment {
         dataModels.add(new DataModel("11","Kokia", "Najlepsza firma", R.drawable.google ));
         dataModels.add(new DataModel("12","Kokia", "Najlepsza firma", R.drawable.google ));
         dataModels.add(new DataModel("13","Kokia", "Najlepsza firma", R.drawable.windows ));
+        dataModels.add(new DataModel("5","ggg", "Najlepsza firma", R.drawable.plugin ));
+        dataModels.add(new DataModel("5","ggg", "Najlepsza firma", R.drawable.plugin ));
 
-        adapter = new CustomAdapter(dataModels,this.getActivity());
+        adapter = new CustomAdapter(this.getActivity(), R.layout.list_item, dataModels );
+        listView = view.findViewById(R.id.listview);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,11 +98,11 @@ public class fragment2 extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                adapter.getFilter().filter(s);
+
+                    adapter.getFilter().filter(s);
+
                 return false;
             }
         });
-
-        return;
     }
 }
