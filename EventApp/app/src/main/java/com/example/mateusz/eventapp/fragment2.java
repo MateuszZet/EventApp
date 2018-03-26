@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -26,7 +27,8 @@ import java.util.Arrays;
 public class fragment2 extends Fragment {
 
     private ListView listView;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<DataModel> dataModels;
+    private CustomAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,38 +36,50 @@ public class fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment2_layout, container, false);
 
 
-       ListView listView = (ListView) view.findViewById(R.id.listview);
+       listView = view.findViewById(R.id.listview);
 
-        String cars[] = {"Mercedes", "Fiat", "Ferrari", "Aston Martin", "Lamborghini", "Skoda", "Volkswagen", "Audi", "Citroen", "Nokia",
-        "Capgemini", "Kot", "Pies", "Krowa", "Lampart", "Drzwi", "Okno"
-        };
+        dataModels = new ArrayList<>();
+        dataModels.add(new DataModel("1","Nokia", "Najlepsza firma", R.drawable.apple ));
+        dataModels.add(new DataModel("3","fdfd", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("4","hgdda", "Najlepsza firma", R.drawable.instagram ));
+        dataModels.add(new DataModel("5","ggg", "Najlepsza firma", R.drawable.plugin ));
+        dataModels.add(new DataModel("6","a", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("7","b", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("8","Kokia", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("9","Kokia", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("10","Kokia", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("11","Kokia", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("12","Kokia", "Najlepsza firma", R.drawable.google ));
+        dataModels.add(new DataModel("13","Kokia", "Najlepsza firma", R.drawable.windows ));
 
-        ArrayList<String> carL = new ArrayList<String>();
-        carL.addAll( Arrays.asList(cars) );
-
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, carL);
+        adapter = new CustomAdapter(dataModels,this.getActivity());
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item text from ListView
-                String selectedItem = (String) parent.getItemAtPosition(position);
+                dataModels.get(position);
 
-                // Display the selected item text on TextView
-                Toast toast = Toast.makeText(getActivity(), "Click on: " + selectedItem, Toast.LENGTH_SHORT);
+                // Get the selected item text from ListView
+                String name = dataModels.get(position).getName();
+                String boxid = dataModels.get(position).getBox_id();
+                String description = dataModels.get(position).getDescription();
+                Integer image = dataModels.get(position).getImage();
+
+                // Display the selected item text on Toast
+                Toast toast = Toast.makeText(getActivity(), "Click on: " + name, Toast.LENGTH_SHORT);
                 toast.show();
+
                 Intent intent = new Intent(getActivity(), Details.class);
-                intent.putExtra("var", selectedItem);
+                intent.putExtra("name", name);
+                intent.putExtra("id", boxid);
+                intent.putExtra("description", description);
+                intent.putExtra("image", image);
                 startActivity(intent);
             }
         });
 
-
-
         return view;
-
-
     }
 
     @Override
